@@ -43,10 +43,8 @@ object PkButtonDefault {
     fun buttonColors(
         backgroundColor: Color = PkTheme.colors.primary,
         contentColor: Color = PkTheme.colors.contentColorFor(backgroundColor),
-        disabledBackgroundColor: Color = PkTheme.colors.onSurface.copy(alpha = 0.12f)
-            .compositeOver(PkTheme.colors.surface),
-        disabledContentColor: Color = PkTheme.colors.onSurface
-            .copy(alpha = ContentAlpha.disabled)
+        disabledBackgroundColor: Color = Color(0xFFD4D4D5),
+        disabledContentColor: Color = PkTheme.colors.onPrimary
     ): ButtonColors = PkButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
