@@ -52,6 +52,19 @@ object PkButtonDefault {
         disabledContentColor = disabledContentColor,
         interactionSource = remember { MutableInteractionSource() }
     )
+    @Composable
+    fun transparentColor(
+        backgroundColor: Color = Color.Transparent,
+        contentColor: Color = Color(0xFF1F4D1B),
+        disabledBackgroundColor: Color = Color(0xFFD4D4D5),
+        disabledContentColor: Color = PkTheme.colors.onPrimary
+    ): ButtonColors = PkButtonColors(
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        disabledBackgroundColor = disabledBackgroundColor,
+        disabledContentColor = disabledContentColor,
+        interactionSource = remember { MutableInteractionSource() }
+    )
 
 }
 @Immutable
