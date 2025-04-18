@@ -135,8 +135,8 @@ fun PkTitle(
     color: Color = Color(0xFF333333),
     fontStyle: FontStyle? = null,
     textAlign: TextAlign? = null,
-    overflow: TextOverflow = TextOverflow.Clip,
-    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Ellipsis,
+    maxLines: Int =1,
     style: TextStyle = LocalTextStyle.current
 ) {
     Text(

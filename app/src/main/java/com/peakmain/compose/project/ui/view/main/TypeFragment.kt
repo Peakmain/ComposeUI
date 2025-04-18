@@ -80,6 +80,8 @@ import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
 import com.peakmain.compose.ui.button.PkButtonDefault
 import com.peakmain.compose.ui.button.PkShapes
+import com.peakmain.compose.ui.cell.PkCell
+import com.peakmain.compose.ui.title.PkTitleType
 import com.peakmain.compose.utils.ImagePainterUtils
 
 @Composable
@@ -143,6 +145,19 @@ fun TypeFragment() {
                     fontSize = BasicFont.font_12
                 )
             }
+        }
+        Column(
+            Modifier
+                .background(Color.White)
+                .fillMaxSize()
+        ) {
+            PkCell(
+                "常用功能",
+                PkTitleType.BigTitle3(),
+                rightText = "展开",
+                modifier = Modifier.padding(horizontal = 18.dp),
+                color = Color(0xFF14401B)
+            )
         }
 
     }
