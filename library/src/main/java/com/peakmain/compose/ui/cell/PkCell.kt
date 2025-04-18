@@ -25,6 +25,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -51,7 +54,20 @@ import com.peakmain.compose.basic.BasicSize
 import com.peakmain.compose.library.R
 import com.peakmain.compose.ui.title.PkTitle
 import com.peakmain.compose.ui.title.PkTitleType
-
+/**
+ * 通用可自定义右侧内容的标题组件。
+ *
+ * @param text 左侧显示的文本内容（必填）
+ * @param type 标题样式类型（字体大小、字重等），默认 [PkTitleType.BigTitle1]，详见 PkTitleType 文档
+ * @param modifier 布局修饰符（如尺寸、边距等），作用于整个单元格容器，默认 [Modifier]
+ * @param color 文本颜色，默认 Color(0xFF333333)
+ * @param fontStyle 字体风格，如 [FontStyle.Italic]，默认 null
+ * @param textAlign 文本对齐方式，如 [TextAlign.End]（右对齐），默认 null（跟随系统）
+ * @param overflow 文本溢出处理方式，默认 [TextOverflow.Ellipsis]
+ * @param maxLines 文本最大显示行数，默认 1
+ * @param style 自定义文本样式，可覆盖 [type] 中的部分属性，默认 [LocalTextStyle.current]
+ * @param rightContent 右侧自定义内容（必填），支持任意组合（图标、开关等），通过 [RowScope] 提供灵活布局能力
+ */
 @Composable
 fun PkCell(
     text: String,
@@ -77,6 +93,27 @@ fun PkCell(
         }
     }
 }
+
+/**
+ * 通用标题组件
+ *
+ * @param text 左侧主标题文本内容（必填）
+ * @param type 标题样式类型（字体大小、字重），默认 [PkTitleType.BigTitle1]，参考 PkTitleType 文档
+ * @param modifier 整体容器修饰符（如边距、背景等），默认 [Modifier]
+ * @param color 左侧标题文本颜色，默认 Color(0xFF333333)
+ * @param fontStyle 字体风格，如 [FontStyle.Italic]，默认 null
+ * @param textAlign 文本对齐方式，默认 null（跟随系统）
+ * @param overflow 文本溢出处理方式，默认 [TextOverflow.Ellipsis]
+ * @param maxLines 文本最大显示行数，默认 1
+ * @param style 自定义文本样式（覆盖 [type] 属性），默认 [LocalTextStyle.current]
+ * @param rightText 右侧辅助文本内容（空字符串时不显示），默认 ""
+ * @param rightTextColor 右侧辅助文本颜色，默认 Color(0xFF666666)
+ * @param rightTextSize 右侧辅助文本字体大小，默认 12.sp
+ * @param rightIcon 右侧图标资源 ID（设为 null 时不显示图标），默认 R.drawable.ic_right_arrow
+ * @param rightIconSize 右侧图标尺寸，默认 12.dp
+ * @param isRightIconRotated 是否启用图标旋转动画（用于展开/收起状态指示），默认 false
+ * @param rightClick 点击右侧区域的回调（触发动画和自定义逻辑），默认 null
+ */
 
 @Composable
 fun PkCell(
@@ -150,5 +187,7 @@ fun PkCellPreview() {
             color = Color(0xFF14401B)
         )
     }
+
+
 }
 
