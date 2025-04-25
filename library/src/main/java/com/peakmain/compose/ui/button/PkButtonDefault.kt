@@ -6,8 +6,6 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -16,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.unit.dp
 import com.peakmain.compose.theme.PkTheme
 
@@ -27,18 +24,29 @@ import com.peakmain.compose.theme.PkTheme
  * describe：
  */
 object PkButtonDefault {
-    private val ButtonHorizontalPadding = 24.dp
-    private val ButtonVerticalPadding = 11.dp
+    private val ButtonBigHorizontalPadding = 24.dp
+    private val ButtonBigVerticalPadding = 11.dp
+
+    private val ButtonSmallHorizontalPadding = 12.dp
+    private val ButtonSmallVerticalPadding = 12.dp
 
     /**
      * The default content padding used by [Button]
      */
-    val ContentPadding = PaddingValues(
-        start = ButtonHorizontalPadding,
-        top = ButtonVerticalPadding,
-        end = ButtonHorizontalPadding,
-        bottom = ButtonVerticalPadding
+    val BigContentPadding = PaddingValues(
+        start = ButtonBigHorizontalPadding,
+        top = ButtonBigVerticalPadding,
+        end = ButtonBigHorizontalPadding,
+        bottom = ButtonBigVerticalPadding
     )
+
+    val smallContentPadding = PaddingValues(
+        start = ButtonSmallHorizontalPadding,
+        top = ButtonSmallVerticalPadding,
+        end = ButtonSmallHorizontalPadding,
+        bottom = ButtonSmallVerticalPadding
+    )
+
     @Composable
     fun buttonColors(
         backgroundColor: Color = PkTheme.colors.primary,
@@ -52,6 +60,7 @@ object PkButtonDefault {
         disabledContentColor = disabledContentColor,
         interactionSource = remember { MutableInteractionSource() }
     )
+
     @Composable
     fun transparentColor(
         backgroundColor: Color = Color.Transparent,
@@ -67,6 +76,7 @@ object PkButtonDefault {
     )
 
 }
+
 @Immutable
 class PkButtonColors(
     private val backgroundColor: Color,

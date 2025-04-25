@@ -6,7 +6,6 @@ package com.peakmain.compose.ui.cell
  * mail:2726449200@qq.com
  * describe：单元格
  */
-import BasicFont
 import android.graphics.drawable.Icon
 import android.text.TextUtils
 import android.view.View
@@ -50,6 +49,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.peakmain.compose.basic.BasicFont
 import com.peakmain.compose.basic.BasicSize
 import com.peakmain.compose.library.R
 import com.peakmain.compose.ui.title.PkTitle

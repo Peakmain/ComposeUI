@@ -6,7 +6,6 @@ package com.peakmain.compose.project.ui.view.main
  * mail:2726449200@qq.com
  * describe：分类Fragment
  */
-import BasicFont
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -28,8 +27,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.Icon
@@ -73,6 +74,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.peakmain.compose.basic.BasicFont
 import com.peakmain.compose.library.TopAppBarCenter
 import com.peakmain.compose.project.R
 import com.peakmain.compose.theme.PkTheme
@@ -86,19 +88,14 @@ import com.peakmain.compose.utils.ImagePainterUtils
 
 @Composable
 fun TypeFragment() {
-    val lists = ArrayList<String>().apply {
-        add("https://img2.baidu.com/it/u=292395973,2170347184&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")
-        add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
-    }
     Column(
         modifier = Modifier
             .background(Color.White)
+            .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
         Column {
+            BannerDemo()
             Row(verticalAlignment = Alignment.Bottom) {
                 Text(
                     "￥729",
@@ -149,7 +146,7 @@ fun TypeFragment() {
         Column(
             Modifier
                 .background(Color.White)
-                .fillMaxSize()
+                .height(510.dp)
         ) {
             PkCell(
                 "常用功能",
@@ -159,10 +156,46 @@ fun TypeFragment() {
                 color = Color(0xFF14401B)
             )
         }
+        Box(modifier = Modifier
+            .height(300.dp)
+            .fillMaxWidth(), contentAlignment = Alignment.Center) {
+            Text("我是底部")
+        }
+    }
+}
+@Composable
+fun BannerDemo(){
+    val lists = ArrayList<String>().apply {
+        add("https://img2.baidu.com/it/u=292395973,2170347184&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
+        add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")
+        add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
+        add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
+        add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
+    }
+    Column(
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxSize()
+    ) {
+            PkBanner(lists,
+                isAutoPlay = true,
+                initialPage = 3,
+                onBannerClick = {
+                    Log.e("TAG", "获取到点击后的数据：${lists[it]}")
+                }) {
+                Image(
+                    painter = ImagePainterUtils.getPainter(lists[it]),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(RoundedCornerShape(8.dp))
+                        .fillMaxSize(),
+                    contentScale = ContentScale.Crop,
+                    alignment = Alignment.TopCenter
+                )
+            }
 
     }
 }
-
 
 @Preview
 @Composable

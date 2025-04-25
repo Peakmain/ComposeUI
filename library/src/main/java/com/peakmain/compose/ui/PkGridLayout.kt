@@ -1,13 +1,15 @@
 package com.peakmain.compose.ui
 
 import androidx.annotation.IntRange
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.TabRowDefaults.Divider
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
@@ -23,18 +25,19 @@ import androidx.compose.ui.unit.dp
  * @param content The content of the GridLayout
  */
 @Composable
-fun <E> GridLayout(
+fun <E> PkGridLayout(
     @IntRange(from = 1) columns: Int,
     data: MutableList<E>,
     isShowHorizontalDivider: Boolean = false,
     divider: @Composable (() -> Unit)? = null,
-    content: @Composable (Int, E) -> Unit,
+    columnSpacing: Dp = 12.dp, // 新增参数，表示列间距，默认值为 8.dp
+    content: @Composable (Int, E) -> Unit
 ) {
     val size = data.size
     val rows = (size + columns - 1) / columns
-    LazyColumn {
-        items(rows) { rowIndex ->
-            Row {
+    Column {
+        for (rowIndex in 0 until rows) {
+            Row(horizontalArrangement = Arrangement.spacedBy(columnSpacing)) {
                 for (columnIndex in 0 until columns) {
                     val itemIndex = rowIndex * columns + columnIndex
                     if (itemIndex < size) {
@@ -56,7 +59,6 @@ fun <E> GridLayout(
                     Divider(thickness = 0.5.dp)
                 }
             }
-
         }
     }
 }

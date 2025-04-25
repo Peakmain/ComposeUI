@@ -31,7 +31,7 @@ import com.peakmain.compose.theme.PkTheme
  * @param shape 按钮形状，默认 [PkTheme.shapes.small]，如 `RoundedCornerShape(4.dp)`
  * @param border 按钮边框，默认 null，如 `BorderStroke(1.dp, Color.Gray)`
  * @param colors 按钮颜色配置，默认 [PkButtonDefault.buttonColors]，包含默认、禁用、按压等状态颜色
- * @param contentPadding 内容内边距，默认 [PkButtonDefault.ContentPadding]，即 `PaddingValues(horizontal = 16.dp, vertical = 8.dp)`
+ * @param contentPadding 内容内边距，默认 [PkButtonDefault.BigContentPadding]，即 `PaddingValues(horizontal = 16.dp, vertical = 8.dp)`
  * @param content 按钮内部内容（必填），支持 [RowScope]，可自由组合文本、图标等
  */
 @Composable
@@ -44,7 +44,7 @@ fun PkButton(
     shape: Shape = PkTheme.shapes.small,
     border: BorderStroke? = null,
     colors: ButtonColors = PkButtonDefault.buttonColors(),
-    contentPadding: PaddingValues = PkButtonDefault.ContentPadding,
+    contentPadding: PaddingValues = PkButtonDefault.BigContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
     Button(
