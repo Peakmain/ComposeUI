@@ -7,159 +7,94 @@ package com.peakmain.compose.project.ui.view.main
  * describe：分类Fragment
  */
 import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.indication
-import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonColors
 import androidx.compose.material.Icon
-import androidx.compose.material.SnackbarDefaults.backgroundColor
+import androidx.compose.material.LocalTextStyle
+import androidx.compose.material.SnackbarHost
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.MailOutline
-import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.CornerRadius
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Brush.Companion.linearGradient
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.input.key.Key.Companion.Ro
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
+import androidx.compose.ui.zIndex
 import com.peakmain.compose.basic.BasicFont
-import com.peakmain.compose.library.TopAppBarCenter
 import com.peakmain.compose.project.R
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
 import com.peakmain.compose.ui.button.PkButtonDefault
-import com.peakmain.compose.ui.button.PkShapes
 import com.peakmain.compose.ui.cell.PkCell
 import com.peakmain.compose.ui.title.PkTitleType
 import com.peakmain.compose.utils.ImagePainterUtils
+import kotlinx.coroutines.delay
+
+
 
 @Composable
 fun TypeFragment() {
     Column(
         modifier = Modifier
             .background(Color.White)
+            .statusBarsPadding()
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
     ) {
-        Column {
-            BannerDemo()
-            Row(verticalAlignment = Alignment.Bottom) {
-                Text(
-                    "￥729",
-                    color = Color(0x40252525),
-                    style = TextStyle(textDecoration = TextDecoration.LineThrough),
-                )
-                Text(
-                    buildAnnotatedString {
-                        append("¥671")
-                        withStyle(SpanStyle()) {
-                            addStyle(
-                                style = SpanStyle(
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Normal
-                                ), 0, 1
-                            )
-                        }
-                    },
-                    Modifier
-                        .align(Alignment.Bottom)
-                        .alignByBaseline(),
-                    color = Color(0xFFE56A54),
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.W500
-                )
-            }
-            Box() {
-                Image(
-                    painter = painterResource(R.drawable.ic_launcher_foreground),
-                    contentDescription = null
-                )
-                PkBadge("13")
-            }
-            PkButton(
-                onClick = {
+        var toastVisible by remember { mutableStateOf(false) }
 
-                }, elevation = null,
-                colors = PkButtonDefault.transparentColor(),
-                shape = PkTheme.shapes.small,
-                border = BorderStroke(0.5.dp, Color(0xFFD4D4D5))
+        Box(modifier = Modifier.fillMaxSize()) {
+            Button(
+                onClick = { toastVisible = true },
+                modifier = Modifier.align(Alignment.Center)
             ) {
-                Text(
-                    "继续挑战", fontWeight = FontWeight.W500,
-                    fontSize = BasicFont.font_12
-                )
+                Text("显示 Top Toast")
             }
-        }
-        Column(
-            Modifier
-                .background(Color.White)
-                .height(510.dp)
-        ) {
-            PkCell(
-                "常用功能",
-                PkTitleType.BigTitle3(),
-                rightText = "展开",
-                modifier = Modifier.padding(horizontal = 18.dp),
-                color = Color(0xFF14401B)
-            )
-        }
-        Box(modifier = Modifier
-            .height(300.dp)
-            .fillMaxWidth(), contentAlignment = Alignment.Center) {
-            Text("我是底部")
+
         }
     }
 }

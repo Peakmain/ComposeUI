@@ -28,7 +28,7 @@ object PkButtonDefault {
     private val ButtonBigVerticalPadding = 11.dp
 
     private val ButtonSmallHorizontalPadding = 12.dp
-    private val ButtonSmallVerticalPadding = 12.dp
+    private val ButtonSmallVerticalPadding = 5.dp
 
     /**
      * The default content padding used by [Button]
