@@ -20,8 +20,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -70,11 +73,20 @@ fun <T> PkBanner(
     var isAutoScrollEnabled by remember {
         mutableStateOf(isAutoPlay && size > 0)
     }
+    val screenHeightPx = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
+    var isBannerVisible by remember { mutableStateOf(true) } // 用于判断是否在屏幕上
+    /**
+     * 监听是否可见
+     */
+    val visibilityModifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+        val position = layoutCoordinates.localToWindow(Offset.Zero)
+        isBannerVisible = position.y in 0f..screenHeightPx
+    }
     if (size > 1 && isAutoPlay) {
-        LaunchedEffect(isAutoScrollEnabled) {
-            while (isAutoScrollEnabled) {
+        LaunchedEffect(isAutoScrollEnabled,isBannerVisible) {
+            while (isAutoScrollEnabled && isBannerVisible) {
                 delay(duration)
-                if (isAutoScrollEnabled) {
+                if (isAutoScrollEnabled && isBannerVisible) {
                     val nextPage = (pagerState.currentPage + 1) % pagerState.pageCount
                     pagerState.animateScrollToPage(nextPage)
                 }
@@ -90,7 +102,7 @@ fun <T> PkBanner(
     HorizontalPager(
         pagerState,
         pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
-        modifier = Modifier
+        modifier = visibilityModifier
             .pointerInput(Unit) {
                 detectTapGestures(
                     onPress = {

@@ -87,6 +87,7 @@ fun TypeFragment() {
     ) {
         var toastVisible by remember { mutableStateOf(false) }
 
+        BannerDemo()
         Box(modifier = Modifier.fillMaxSize()) {
             Button(
                 onClick = { toastVisible = true },
@@ -94,6 +95,9 @@ fun TypeFragment() {
             ) {
                 Text("显示 Top Toast")
             }
+
+        }
+        Column(modifier = Modifier.height(800.dp).fillMaxWidth().background(Color.Red)) {
 
         }
     }
