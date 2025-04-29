@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
+import androidx.compose.foundation.pager.VerticalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -47,7 +48,7 @@ import org.jetbrains.annotations.Range
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> PkBanner(
-    lists: ArrayList<T>,
+    lists: List<T>,
     pagerWidth: Dp = 290.dp,
     pagerHeight: Dp = 116.dp,
     pageSpacing: Dp = 12.dp,
@@ -56,6 +57,7 @@ fun <T> PkBanner(
     isAutoPlay: Boolean = false,
     initialPage: Int = 0,
     onBannerClick: ((Int) -> Unit)? = null,
+    isVertical:Boolean=false,
     content: @Composable (Int) -> Unit
 ) {
     val size = lists.size
@@ -99,31 +101,60 @@ fun <T> PkBanner(
             }
         }
     }
-    HorizontalPager(
-        pagerState,
-        pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
-        modifier = visibilityModifier
-            .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        if (isAutoPlay) {
-                            isAutoScrollEnabled = false
-                            if (tryAwaitRelease()) {
-                                isAutoScrollEnabled = true
+    if(isVertical){
+        VerticalPager(
+            pagerState,
+            pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
+            modifier = visibilityModifier
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onPress = {
+                            if (isAutoPlay) {
+                                isAutoScrollEnabled = false
+                                if (tryAwaitRelease()) {
+                                    isAutoScrollEnabled = true
+                                }
                             }
+                        },
+                        onTap = {
+                            onBannerClick?.invoke(pagerState.currentPage)
                         }
-                    },
-                    onTap = {
-                        onBannerClick?.invoke(pagerState.currentPage)
-                    }
-                )
-            }
-            .height(pagerHeight),// 限制父容器高度
-        contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
-        pageSpacing = pageSpacing
-    ) {
-        content(it)
+                    )
+                }
+                .height(pagerHeight),// 限制父容器高度
+            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
+            pageSpacing = pageSpacing
+        ) {
+            content(it)
+        }
+    }else{
+        HorizontalPager(
+            pagerState,
+            pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
+            modifier = visibilityModifier
+                .pointerInput(Unit) {
+                    detectTapGestures(
+                        onPress = {
+                            if (isAutoPlay) {
+                                isAutoScrollEnabled = false
+                                if (tryAwaitRelease()) {
+                                    isAutoScrollEnabled = true
+                                }
+                            }
+                        },
+                        onTap = {
+                            onBannerClick?.invoke(pagerState.currentPage)
+                        }
+                    )
+                }
+                .height(pagerHeight),// 限制父容器高度
+            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
+            pageSpacing = pageSpacing
+        ) {
+            content(it)
+        }
     }
+
 }
 
 @Preview
