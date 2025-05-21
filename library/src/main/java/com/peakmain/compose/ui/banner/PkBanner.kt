@@ -48,7 +48,7 @@ import org.jetbrains.annotations.Range
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun <T> PkBanner(
-    lists: List<T>,
+    lists: List<T?>,
     pagerWidth: Dp = 290.dp,
     pagerHeight: Dp = 116.dp,
     pageSpacing: Dp = 12.dp,
@@ -57,8 +57,8 @@ fun <T> PkBanner(
     isAutoPlay: Boolean = false,
     initialPage: Int = 0,
     onBannerClick: ((Int) -> Unit)? = null,
-    isVertical:Boolean=false,
-    content: @Composable (Int) -> Unit
+    isVertical: Boolean = false,
+    content: @Composable (Int, T?) -> Unit
 ) {
     val size = lists.size
     if (size == 0) return
@@ -75,8 +75,10 @@ fun <T> PkBanner(
     var isAutoScrollEnabled by remember {
         mutableStateOf(isAutoPlay && size > 0)
     }
-    val screenHeightPx = with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
+    val screenHeightPx =
+        with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
     var isBannerVisible by remember { mutableStateOf(true) } // 用于判断是否在屏幕上
+
     /**
      * 监听是否可见
      */
@@ -85,7 +87,7 @@ fun <T> PkBanner(
         isBannerVisible = position.y in 0f..screenHeightPx
     }
     if (size > 1 && isAutoPlay) {
-        LaunchedEffect(isAutoScrollEnabled,isBannerVisible) {
+        LaunchedEffect(isAutoScrollEnabled, isBannerVisible) {
             while (isAutoScrollEnabled && isBannerVisible) {
                 delay(duration)
                 if (isAutoScrollEnabled && isBannerVisible) {
@@ -101,7 +103,7 @@ fun <T> PkBanner(
             }
         }
     }
-    if(isVertical){
+    if (isVertical) {
         VerticalPager(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
@@ -125,9 +127,9 @@ fun <T> PkBanner(
             contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
             pageSpacing = pageSpacing
         ) {
-            content(it)
+            content(it, lists[if (it < lists.size) it else 0])
         }
-    }else{
+    } else {
         HorizontalPager(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
@@ -151,7 +153,7 @@ fun <T> PkBanner(
             contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
             pageSpacing = pageSpacing
         ) {
-            content(it)
+            content(it, lists[if (it < lists.size) it else 0])
         }
     }
 

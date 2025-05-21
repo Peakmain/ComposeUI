@@ -38,6 +38,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
@@ -47,6 +48,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.ImageLoader
+import coil.compose.rememberAsyncImagePainter
 import com.peakmain.compose.basic.BasicFont
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
@@ -76,6 +79,7 @@ fun TypeFragment() {
             }
 
         }
+        customImage()
         VerticalBannerDemo()
 
         Column(modifier = Modifier.height(800.dp).fillMaxWidth().background(Color.Red)) {
@@ -131,7 +135,21 @@ fun BannerDemo(){
 
     }
 }
-
+@Composable
+private fun customImage() {
+    val imageLoader = ImageLoader.Builder(this)
+        .components {
+            add(SvgDecoder.Factory())
+        }.build()
+    Image(
+        painter = rememberAsyncImagePainter(
+            "https://coil-kt.github.io/coil/images/coil_logo_black.svg",
+            imageLoader = imageLoader,
+        ),
+        colorFilter = ColorFilter.tint(Color.Red),
+        contentDescription = null,
+    )
+}
 @Preview
 @Composable
 fun testPrev() {

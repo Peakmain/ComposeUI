@@ -42,6 +42,8 @@ dependencies {
     api "androidx.compose.ui:ui-tooling:1.5.4"
     api "androidx.constraintlayout:constraintlayout-compose:1.0.0"
     api ("io.coil-kt:coil-compose:2.4.0")
+    api ("io.coil-kt:coil-svg:2.4.0")
+    api ("io.coil-kt:coil-gif:2.4.0")
 
     def accompanist_version = "0.33.1-alpha"
     api "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"

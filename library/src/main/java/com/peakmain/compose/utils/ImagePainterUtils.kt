@@ -1,11 +1,18 @@
 package com.peakmain.compose.utils
 
+import android.content.Context
+import android.graphics.Insets.add
+import android.os.Build.VERSION.SDK_INT
 import android.text.TextUtils
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import coil.ImageLoader
 import coil.compose.AsyncImagePainter
 import coil.compose.rememberAsyncImagePainter
+import coil.decode.ImageDecoderDecoder
+import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.peakmain.compose.library.R
 
@@ -29,6 +36,7 @@ object ImagePainterUtils {
         imageUrl: String?,
         @DrawableRes errorDrawableResId: Int = R.drawable.icon_loading,
         @DrawableRes placeDrawableResId: Int = R.drawable.icon_loading,
+        imageLoader: ImageLoader = getImageLoader(LocalContext.current)
     ): AsyncImagePainter {
 
         return if (!TextUtils.isEmpty(imageUrl))
@@ -37,14 +45,26 @@ object ImagePainterUtils {
                     .data(imageUrl)
                     .error(errorDrawableResId)
                     .placeholder(placeDrawableResId)
-                    .build()
+                    .build(),
+                imageLoader =imageLoader
             ) else
             rememberAsyncImagePainter(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(placeDrawableResId)
-                    .build()
+                    .build(),
+                imageLoader =imageLoader
             )
 
     }
 
+    private fun getImageLoader(context: Context): ImageLoader {
+        return ImageLoader.Builder(context).components {
+            if (SDK_INT > 28) {
+                add(ImageDecoderDecoder.Factory())
+            } else {
+                add(coil.decode.GifDecoder.Factory())
+            }
+            add(SvgDecoder.Factory())
+        }.build()
+    }
 }

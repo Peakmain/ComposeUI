@@ -33,7 +33,7 @@ fun PkImageView(
         modifier, alignment,
         contentScale = contentScale,
         alpha = alpha,
-        colorFilter = if (tintColor != null) ColorFilter.tint(tintColor) else null
+        colorFilter = if (tintColor != null) ColorFilter.tint(tintColor) else null,
     )
 }
 
