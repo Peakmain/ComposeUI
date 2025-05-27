@@ -8,6 +8,7 @@ package com.peakmain.compose.project.ui.view.main
  */
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -21,6 +22,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -30,6 +33,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,49 +54,89 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
+import coil.decode.SvgDecoder
 import com.peakmain.compose.basic.BasicFont
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
 import com.peakmain.compose.ui.button.PkButtonDefault
+import com.peakmain.compose.ui.title.PkTitle
+import com.peakmain.compose.ui.title.PkTitleType
 import com.peakmain.compose.utils.ImagePainterUtils
 
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun TypeFragment() {
-    Column(
+    val listState = rememberLazyListState()
+    var isCommonFunctionExpand by remember {
+        mutableStateOf(false)
+    }
+    val scrollDistance by remember {
+        derivedStateOf {
+            if (listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset >= 44f) {
+                44f
+            } else {
+                0f
+            }
+        }
+    }
+    LazyColumn(
         modifier = Modifier
             .background(Color.White)
             .statusBarsPadding()
-            .verticalScroll(rememberScrollState())
-            .fillMaxSize()
+            .fillMaxSize(),
+        state = listState
     ) {
-        var toastVisible by remember { mutableStateOf(false) }
-
-        BannerDemo()
-        Box(modifier = Modifier.fillMaxSize()) {
-            Button(
-                onClick = { toastVisible = true },
-                modifier = Modifier.align(Alignment.Center)
-            ) {
-                Text("显示 Top Toast")
-            }
-
+        stickyHeader {
+            //客服、消息、设置
+           Box(){
+               if (scrollDistance == 44f) {
+                   PkTitle(
+                       "会员",
+                       type = PkTitleType.BigTitle3(),
+                       modifier = Modifier.align(Alignment.Center)
+                   )
+               }
+           }
         }
-        customImage()
-        VerticalBannerDemo()
+        item {
+            Box(Modifier
+                .fillMaxWidth()
+                .height(300.dp))
+        }
+        item {
+            BannerDemo()
+        }
+        item {
+           Column {
+               Box(modifier = Modifier.fillMaxSize()) {
+                   Button(
+                       onClick = {  },
+                       modifier = Modifier.align(Alignment.Center)
+                   ) {
+                       Text("显示 Top Toast")
+                   }
 
-        Column(modifier = Modifier.height(800.dp).fillMaxWidth().background(Color.Red)) {
+               }
 
+               Column(modifier = Modifier
+                   .height(800.dp)
+                   .fillMaxWidth()
+                   .background(Color.Red)) {
+
+               }
+           }
         }
     }
 }
+
 @Composable
 fun VerticalBannerDemo() {
     val items = listOf("标题1", "标题2", "标题3")
-    PkBanner (lists = items, isVertical = true,isAutoPlay=true) { index ->
+    PkBanner(lists = items, isVertical = true, isAutoPlay = true) { index, it ->
         Text(
-            text = items[index],
+            text = it ?: "",
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
@@ -102,54 +146,42 @@ fun VerticalBannerDemo() {
         )
     }
 }
+
 @Composable
-fun BannerDemo(){
+fun BannerDemo() {
     val lists = ArrayList<String>().apply {
         add("https://img2.baidu.com/it/u=292395973,2170347184&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")
-        add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
+      /*  add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")*/
+      /*  add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
+      /*  add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
+      /*  add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")*/
     }
     Column(
         modifier = Modifier
             .background(Color.White)
             .fillMaxSize()
     ) {
-            PkBanner(lists,
-                isAutoPlay = true,
-                initialPage = 3,
-                onBannerClick = {
-                    Log.e("TAG", "获取到点击后的数据：${lists[it]}")
-                }) {
-                Image(
-                    painter = ImagePainterUtils.getPainter(lists[it]),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .fillMaxSize(),
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.TopCenter
-                )
-            }
+        PkBanner(lists,
+            isAutoPlay = true,
+            initialPage = 3,
+            onBannerClick = {
+                Log.e("TAG", "获取到点击后的数据：${lists[it]}")
+            }) { index, it ->
+            Image(
+                painter = ImagePainterUtils.getPainter(it),
+                contentDescription = null,
+                modifier = Modifier
+                    .clip(RoundedCornerShape(8.dp))
+                    .fillMaxSize(),
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.TopCenter
+            )
+        }
 
     }
 }
-@Composable
-private fun customImage() {
-    val imageLoader = ImageLoader.Builder(this)
-        .components {
-            add(SvgDecoder.Factory())
-        }.build()
-    Image(
-        painter = rememberAsyncImagePainter(
-            "https://coil-kt.github.io/coil/images/coil_logo_black.svg",
-            imageLoader = imageLoader,
-        ),
-        colorFilter = ColorFilter.tint(Color.Red),
-        contentDescription = null,
-    )
-}
+
+
 @Preview
 @Composable
 fun testPrev() {

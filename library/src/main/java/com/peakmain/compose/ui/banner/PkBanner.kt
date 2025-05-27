@@ -124,7 +124,7 @@ fun <T> PkBanner(
                     )
                 }
                 .height(pagerHeight),// 限制父容器高度
-            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
+            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else 0.dp),
             pageSpacing = pageSpacing
         ) {
             content(it, lists[if (it < lists.size) it else 0])
