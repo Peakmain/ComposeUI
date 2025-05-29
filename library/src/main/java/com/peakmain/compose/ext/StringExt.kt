@@ -1,6 +1,7 @@
 package com.peakmain.compose.ext
 
 import android.text.TextUtils
+import androidx.compose.runtime.Composable
 
 /**
  * author ：Peakmain
@@ -22,6 +23,13 @@ fun String?.isNotEmpty(): Boolean {
 }
 
 fun String?.isNotEmpty(block: ((String)) -> Unit): String? {
+    if (isNotEmpty()) {
+        block.invoke(this!!)
+    }
+    return this
+}
+@Composable
+fun String?.isNotEmptyComposable(block: @Composable ((String)) -> Unit): String? {
     if (isNotEmpty()) {
         block.invoke(this!!)
     }

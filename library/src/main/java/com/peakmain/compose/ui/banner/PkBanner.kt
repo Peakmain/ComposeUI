@@ -30,7 +30,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
-import org.jetbrains.annotations.Range
 
 /**
  * 通用轮播组件
@@ -56,7 +55,7 @@ fun <T> PkBanner(
     duration: Long = 3000,
     isAutoPlay: Boolean = false,
     initialPage: Int = 0,
-    onBannerClick: ((Int) -> Unit)? = null,
+    onBannerClick: ((Int, T?) -> Unit)? = null,
     isVertical: Boolean = false,
     content: @Composable (Int, T?) -> Unit
 ) {
@@ -119,12 +118,16 @@ fun <T> PkBanner(
                             }
                         },
                         onTap = {
-                            onBannerClick?.invoke(pagerState.currentPage)
+                            val index = pagerState.currentPage
+                            onBannerClick?.invoke(
+                                index,
+                                lists[if (index < lists.size) index else 0]
+                            )
                         }
                     )
                 }
                 .height(pagerHeight),// 限制父容器高度
-            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else 0.dp),
+            contentPadding = PaddingValues(horizontal = contentPadding),
             pageSpacing = pageSpacing
         ) {
             content(it, lists[if (it < lists.size) it else 0])
@@ -145,7 +148,11 @@ fun <T> PkBanner(
                             }
                         },
                         onTap = {
-                            onBannerClick?.invoke(pagerState.currentPage)
+                            val index = pagerState.currentPage
+                            onBannerClick?.invoke(
+                                index,
+                                lists[if (index < lists.size) index else 0]
+                            )
                         }
                     )
                 }

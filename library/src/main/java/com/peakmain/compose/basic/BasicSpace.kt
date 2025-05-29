@@ -9,6 +9,15 @@ import androidx.compose.ui.unit.dp
  * describe：
  */
 object BasicSpace {
+    val space_neg_8 = (-8).dp
+    val space_neg_7 = (-7).dp
+    val space_neg_6 = (-6).dp
+    val space_neg_5 = (-5).dp
+    val space_neg_4 = (-4).dp
+    val space_neg_3 = (-3).dp
+    val space_neg_2 = (-2).dp
+    val space_neg_1 = (-1).dp
+    val space_0 = 0.dp
     val space_1 = 1.dp
     val space_2 = 2.dp
     val space_3 = 3.dp

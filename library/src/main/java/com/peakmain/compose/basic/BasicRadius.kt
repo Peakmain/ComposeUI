@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
  * describe：
  */
 object BasicRadius {
+    val radius_0 = 0.dp
     val radius_1 = 1.dp
     val radius_2 = 2.dp
     val radius_3 = 3.dp
