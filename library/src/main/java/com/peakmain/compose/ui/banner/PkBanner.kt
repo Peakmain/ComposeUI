@@ -20,6 +20,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.pointerInput
@@ -57,6 +58,8 @@ fun <T> PkBanner(
     initialPage: Int = 0,
     onBannerClick: ((Int, T?) -> Unit)? = null,
     isVertical: Boolean = false,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     content: @Composable (Int, T?) -> Unit
 ) {
     val size = lists.size
@@ -85,6 +88,7 @@ fun <T> PkBanner(
         val position = layoutCoordinates.localToWindow(Offset.Zero)
         isBannerVisible = position.y in 0f..screenHeightPx
     }
+
     if (size > 1 && isAutoPlay) {
         LaunchedEffect(isAutoScrollEnabled, isBannerVisible) {
             while (isAutoScrollEnabled && isBannerVisible) {
@@ -106,6 +110,7 @@ fun <T> PkBanner(
         VerticalPager(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
+            horizontalAlignment = horizontalAlignment,
             modifier = visibilityModifier
                 .pointerInput(Unit) {
                     detectTapGestures(
@@ -121,7 +126,7 @@ fun <T> PkBanner(
                             val index = pagerState.currentPage
                             onBannerClick?.invoke(
                                 index,
-                                lists[if (index < lists.size) index else 0]
+                                lists.getOrNull(index)
                             )
                         }
                     )
@@ -130,12 +135,13 @@ fun <T> PkBanner(
             contentPadding = PaddingValues(horizontal = contentPadding),
             pageSpacing = pageSpacing
         ) {
-            content(it, lists[if (it < lists.size) it else 0])
+            content(it, lists.getOrNull(it))
         }
     } else {
         HorizontalPager(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
+            verticalAlignment = verticalAlignment,
             modifier = visibilityModifier
                 .pointerInput(Unit) {
                     detectTapGestures(
@@ -151,7 +157,7 @@ fun <T> PkBanner(
                             val index = pagerState.currentPage
                             onBannerClick?.invoke(
                                 index,
-                                lists[if (index < lists.size) index else 0]
+                                lists.getOrNull(index)
                             )
                         }
                     )
@@ -163,6 +169,7 @@ fun <T> PkBanner(
             content(it, lists[if (it < lists.size) it else 0])
         }
     }
+
 
 }
 

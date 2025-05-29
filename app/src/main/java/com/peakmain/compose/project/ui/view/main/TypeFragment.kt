@@ -84,11 +84,6 @@ fun TypeFragment() {
             }
         }
     }
-    "".isNotEmptyComposable {
-        Row {
-
-        }
-    }
     LazyColumn(
         modifier = Modifier
             .background(Color.White)
@@ -98,59 +93,61 @@ fun TypeFragment() {
     ) {
         stickyHeader {
             //客服、消息、设置
-           Box(){
-               if (scrollDistance == 44f) {
-                   PkTitle(
-                       "会员",
-                       type = PkTitleType.BigTitle3(),
-                       modifier = Modifier.align(Alignment.Center)
-                   )
-               }
-           }
+            Box() {
+                if (scrollDistance == 44f) {
+                    PkTitle(
+                        "会员",
+                        type = PkTitleType.BigTitle3(),
+                        modifier = Modifier.align(Alignment.Center)
+                    )
+                }
+            }
         }
         item {
-            Box(Modifier
-                .fillMaxWidth()
-                .height(300.dp))
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(300.dp)
+            )
         }
         item {
-            BannerDemo()
+            VerticalBannerDemo()
         }
         item {
-           Column {
-               Box(modifier = Modifier.fillMaxSize()) {
-                   Button(
-                       onClick = {  },
-                       modifier = Modifier.align(Alignment.Center)
-                   ) {
-                       Text("显示 Top Toast")
-                   }
+            Column {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Button(
+                        onClick = { },
+                        modifier = Modifier.align(Alignment.Center)
+                    ) {
+                        Text("显示 Top Toast")
+                    }
 
-               }
+                }
 
-               Column(modifier = Modifier
-                   .height(800.dp)
-                   .fillMaxWidth()
-                   .background(Color.Red)) {
+                Column(
+                    modifier = Modifier
+                        .height(800.dp)
+                        .fillMaxWidth()
+                        .background(Color.Red)
+                ) {
 
-               }
-           }
+                }
+            }
         }
     }
 }
 
 @Composable
 fun VerticalBannerDemo() {
-    val items = listOf("标题1", "标题2", "标题3")
-    PkBanner(lists = items, isVertical = true, isAutoPlay = true) { index, it ->
+    val items = listOf("标题1", "标题标题2标题2标题2标题2标题2标题22", "标题3")
+    PkBanner(lists = items, isVertical = true, isAutoPlay = true, duration = 1000) { index, it ->
         Text(
             text = it ?: "",
             modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
+                .height(60.dp)
                 .background(Color.Gray),
             fontSize = 20.sp,
-            textAlign = TextAlign.Center
         )
     }
 }
@@ -159,20 +156,21 @@ fun VerticalBannerDemo() {
 fun BannerDemo() {
     val lists = ArrayList<String>().apply {
         add("https://img2.baidu.com/it/u=292395973,2170347184&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-      /*  add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")*/
-      /*  add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
-      /*  add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
-      /*  add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")*/
+        /*  add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")*/
+        /*  add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
+        /*  add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
+        /*  add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")*/
     }
     Column(
         modifier = Modifier
             .background(Color.White)
             .fillMaxSize()
     ) {
-        PkBanner(lists,
+        PkBanner(
+            lists,
             isAutoPlay = true,
             initialPage = 3,
-           ) { index, it ->
+        ) { index, it ->
             Image(
                 painter = ImagePainterUtils.getPainter(it),
                 contentDescription = null,
