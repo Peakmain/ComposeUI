@@ -14,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -56,6 +57,8 @@ import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.SvgDecoder
 import com.peakmain.compose.basic.BasicFont
+import com.peakmain.compose.ext.isNotEmpty
+import com.peakmain.compose.ext.isNotEmptyComposable
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
@@ -79,6 +82,11 @@ fun TypeFragment() {
             } else {
                 0f
             }
+        }
+    }
+    "".isNotEmptyComposable {
+        Row {
+
         }
     }
     LazyColumn(
@@ -164,9 +172,7 @@ fun BannerDemo() {
         PkBanner(lists,
             isAutoPlay = true,
             initialPage = 3,
-            onBannerClick = {
-                Log.e("TAG", "获取到点击后的数据：${lists[it]}")
-            }) { index, it ->
+           ) { index, it ->
             Image(
                 painter = ImagePainterUtils.getPainter(it),
                 contentDescription = null,
