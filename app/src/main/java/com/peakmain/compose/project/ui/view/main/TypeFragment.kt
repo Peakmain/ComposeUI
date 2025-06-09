@@ -141,7 +141,7 @@ fun TypeFragment() {
 @Composable
 fun VerticalBannerDemo() {
     val items = listOf("标题1", "标题标题2标题2标题2标题2标题2标题22", "标题3")
-    PkBanner(lists = items, isVertical = true, isAutoPlay = true, duration = 1000) { index, it ->
+    PkBanner(lists = items, isVertical = true, isAutoPlay = true, duration = 1000, userScrollEnabled = false) { index, it ->
         Text(
             text = it ?: "",
             modifier = Modifier

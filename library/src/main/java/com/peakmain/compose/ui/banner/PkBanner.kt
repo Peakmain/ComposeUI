@@ -43,6 +43,10 @@ import kotlinx.coroutines.delay
  * @param isAutoPlay 是否启用自动轮播，默认false
  * @param initialPage 初始显示的页面索引（从0开始），超出范围时自动修正为有效值0
  * @param onBannerClick 点击回调，参数为当前页索引（从0开始）
+ * @param isVertical 是否为纵向轮播，默认值是false(也就是说默认是水平轮播)
+ * @param horizontalAlignment 横向对齐方式，默认值是Alignment.Start
+ * @param verticalAlignment 纵向对齐方式，默认值 Alignment.CenterVertically
+ * @param userScrollEnabled\ 是否允许用户手动滑动 默认值是true
  * @param content 自定义轮播项内容的Composable，参数为当前页索引（必填）
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -60,6 +64,7 @@ fun <T> PkBanner(
     isVertical: Boolean = false,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    userScrollEnabled: Boolean = true,
     content: @Composable (Int, T?) -> Unit
 ) {
     val size = lists.size
@@ -111,11 +116,12 @@ fun <T> PkBanner(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
             horizontalAlignment = horizontalAlignment,
+            userScrollEnabled = userScrollEnabled,
             modifier = visibilityModifier
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onPress = {
-                            if (isAutoPlay) {
+                            if (userScrollEnabled && isAutoPlay) {
                                 isAutoScrollEnabled = false
                                 if (tryAwaitRelease()) {
                                     isAutoScrollEnabled = true
@@ -142,11 +148,12 @@ fun <T> PkBanner(
             pagerState,
             pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
             verticalAlignment = verticalAlignment,
+            userScrollEnabled = userScrollEnabled,
             modifier = visibilityModifier
                 .pointerInput(Unit) {
                     detectTapGestures(
                         onPress = {
-                            if (isAutoPlay) {
+                            if (userScrollEnabled && isAutoPlay) {
                                 isAutoScrollEnabled = false
                                 if (tryAwaitRelease()) {
                                     isAutoScrollEnabled = true
