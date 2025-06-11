@@ -63,6 +63,7 @@ import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
 import com.peakmain.compose.ui.button.PkButtonDefault
+import com.peakmain.compose.ui.cell.PkCell
 import com.peakmain.compose.ui.title.PkTitle
 import com.peakmain.compose.ui.title.PkTitleType
 import com.peakmain.compose.utils.ImagePainterUtils
@@ -84,64 +85,32 @@ fun TypeFragment() {
             }
         }
     }
-    LazyColumn(
-        modifier = Modifier
-            .background(Color.White)
+    Column(
+        Modifier
             .statusBarsPadding()
-            .fillMaxSize(),
-        state = listState
+            .background(Color.White)
+            .fillMaxSize()
     ) {
-        stickyHeader {
-            //客服、消息、设置
-            Box() {
-                if (scrollDistance == 44f) {
-                    PkTitle(
-                        "会员",
-                        type = PkTitleType.BigTitle3(),
-                        modifier = Modifier.align(Alignment.Center)
-                    )
-                }
-            }
-        }
-        item {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            )
-        }
-        item {
-            VerticalBannerDemo()
-        }
-        item {
-            Column {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    Button(
-                        onClick = { },
-                        modifier = Modifier.align(Alignment.Center)
-                    ) {
-                        Text("显示 Top Toast")
-                    }
-
-                }
-
-                Column(
-                    modifier = Modifier
-                        .height(800.dp)
-                        .fillMaxWidth()
-                        .background(Color.Red)
-                ) {
-
-                }
-            }
-        }
+        PkCell(
+            "常用功能",
+            PkTitleType.BigTitle3(),
+            rightText = "展开",
+            modifier = Modifier.padding(horizontal = 18.dp),
+            color = Color(0xFF14401B)
+        )
     }
 }
 
 @Composable
 fun VerticalBannerDemo() {
     val items = listOf("标题1", "标题标题2标题2标题2标题2标题2标题22", "标题3")
-    PkBanner(lists = items, isVertical = true, isAutoPlay = true, duration = 1000, userScrollEnabled = false) { index, it ->
+    PkBanner(
+        lists = items,
+        isVertical = true,
+        isAutoPlay = true,
+        duration = 1000,
+        userScrollEnabled = false
+    ) { index, it ->
         Text(
             text = it ?: "",
             modifier = Modifier

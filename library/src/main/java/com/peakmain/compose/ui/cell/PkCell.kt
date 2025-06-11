@@ -6,9 +6,7 @@ package com.peakmain.compose.ui.cell
  * mail:2726449200@qq.com
  * describe：单元格
  */
-import android.graphics.drawable.Icon
 import android.text.TextUtils
-import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -18,15 +16,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,6 +52,7 @@ import com.peakmain.compose.basic.BasicSize
 import com.peakmain.compose.library.R
 import com.peakmain.compose.ui.title.PkTitle
 import com.peakmain.compose.ui.title.PkTitleType
+
 /**
  * 通用可自定义右侧内容的标题组件。
  *
@@ -83,12 +82,14 @@ fun PkCell(
 ) {
     Row(
         modifier
+            .height(IntrinsicSize.Min)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         PkTitle(text, type, Modifier, color, fontStyle, textAlign, overflow, maxLines, style)
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,) {
             rightContent.invoke(this)
         }
     }
@@ -145,15 +146,21 @@ fun PkCell(
     )
     Row(
         modifier
+            .height(IntrinsicSize.Min)
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         PkTitle(text, type, Modifier, color, fontStyle, textAlign, overflow, maxLines, style)
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.clickable {
-            isRotated = !isRotated
-            rightClick?.invoke()
-        }) {
+        Row(verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .clickable {
+                    isRotated = !isRotated
+                    rightClick?.invoke()
+                }
+                .padding(start = BasicSize.size_25)
+                .fillMaxHeight()
+        ) {
             if (!TextUtils.isEmpty(rightText)) {
                 Text(rightText, color = rightTextColor, fontSize = rightTextSize)
             }
