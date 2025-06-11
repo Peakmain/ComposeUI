@@ -67,6 +67,149 @@ fun <T> PkBanner(
     userScrollEnabled: Boolean = true,
     content: @Composable (Int, T?) -> Unit
 ) {
+    if (isVertical) {
+        PkVerticalBanner(
+            lists,
+            pagerWidth,
+            pagerHeight,
+            pageSpacing,
+            contentPadding,
+            duration,
+            isAutoPlay,
+            initialPage,
+            onBannerClick,
+            horizontalAlignment,
+            userScrollEnabled,
+            content
+        )
+    }else{
+        PkHorizontalBanner(
+            lists,
+            pagerWidth,
+            pagerHeight,
+            pageSpacing,
+            contentPadding,
+            duration,
+            isAutoPlay,
+            initialPage,
+            onBannerClick,
+            verticalAlignment,
+            userScrollEnabled,
+            content
+        )
+    }
+}
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun <T> PkVerticalBanner(
+    lists: List<T?>,
+    pagerWidth: Dp = 290.dp,
+    pagerHeight: Dp = 116.dp,
+    pageSpacing: Dp = 12.dp,
+    contentPadding: Dp = 18.dp,
+    duration: Long = 3000,
+    isAutoPlay: Boolean = false,
+    initialPage: Int = 0,
+    onBannerClick: ((Int, T?) -> Unit)? = null,
+    horizontalAlignment: Alignment.Horizontal = Alignment.Start,
+    userScrollEnabled: Boolean = true,
+    content: @Composable (Int, T?) -> Unit
+) {
+    val realSize = lists.size
+    if (realSize == 0) return
+
+    // 无限轮播起始页（以 Int.MAX_VALUE 中点起始，能向前向后滑）
+    val infinitePageCount = Int.MAX_VALUE
+    val startIndex = infinitePageCount / 2 - (infinitePageCount / 2) % realSize + initialPage
+
+    val pagerState = rememberPagerState(startIndex) { infinitePageCount }
+
+    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
+    val contentHorizontalPadding = (screenWidthDp - pagerWidth) / 2
+
+    var isAutoScrollEnabled by remember {
+        mutableStateOf(isAutoPlay && realSize > 1)
+    }
+
+    val screenHeightPx =
+        with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
+    var isBannerVisible by remember { mutableStateOf(true) }
+
+    val visibilityModifier = Modifier.onGloballyPositioned { layoutCoordinates ->
+        val position = layoutCoordinates.localToWindow(Offset.Zero)
+        isBannerVisible = position.y in 0f..screenHeightPx
+    }
+
+    if (realSize > 1 && isAutoPlay) {
+        LaunchedEffect(isAutoScrollEnabled, isBannerVisible) {
+            while (isAutoScrollEnabled && isBannerVisible) {
+                delay(duration)
+                if (isAutoScrollEnabled && isBannerVisible) {
+                    pagerState.animateScrollToPage(pagerState.currentPage + 1)
+                }
+            }
+        }
+
+        LaunchedEffect(pagerState.isScrollInProgress) {
+            if (!pagerState.isScrollInProgress && !isAutoScrollEnabled) {
+                isAutoScrollEnabled = true
+            }
+        }
+    }
+
+    val pagerModifier = visibilityModifier
+        .pointerInput(Unit) {
+            detectTapGestures(
+                onPress = {
+                    if (userScrollEnabled && isAutoPlay) {
+                        isAutoScrollEnabled = false
+                        if (tryAwaitRelease()) {
+                            isAutoScrollEnabled = true
+                        }
+                    }
+                },
+                onTap = {
+                    val index = pagerState.currentPage % realSize
+                    onBannerClick?.invoke(index, lists.getOrNull(index))
+                }
+            )
+        }
+        .height(pagerHeight)
+
+    VerticalPager(
+        state = pagerState,
+        pageSize = PageSize.Fixed(pagerWidth),
+        horizontalAlignment = horizontalAlignment,
+        userScrollEnabled = userScrollEnabled,
+        modifier = pagerModifier,
+        contentPadding = PaddingValues(horizontal = contentPadding),
+        pageSpacing = pageSpacing
+    ) { index ->
+        val realIndex = index % realSize
+        content(realIndex, lists[realIndex])
+    }
+}
+
+/**
+ * 水平轮播图
+ */
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun <T> PkHorizontalBanner(
+    lists: List<T?>,
+    pagerWidth: Dp = 290.dp,
+    pagerHeight: Dp = 116.dp,
+    pageSpacing: Dp = 12.dp,
+    contentPadding: Dp = 18.dp,
+    duration: Long = 3000,
+    isAutoPlay: Boolean = false,
+    initialPage: Int = 0,
+    onBannerClick: ((Int, T?) -> Unit)? = null,
+    verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
+    userScrollEnabled: Boolean = true,
+    content: @Composable (Int, T?) -> Unit
+) {
     val size = lists.size
     if (size == 0) return
     val pagerState = rememberPagerState(if (initialPage in 0..<size) initialPage else 0) {
@@ -111,73 +254,37 @@ fun <T> PkBanner(
             }
         }
     }
-    if (isVertical) {
-        VerticalPager(
-            pagerState,
-            pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
-            horizontalAlignment = horizontalAlignment,
-            userScrollEnabled = userScrollEnabled,
-            modifier = visibilityModifier
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onPress = {
-                            if (userScrollEnabled && isAutoPlay) {
-                                isAutoScrollEnabled = false
-                                if (tryAwaitRelease()) {
-                                    isAutoScrollEnabled = true
-                                }
+    HorizontalPager(
+        pagerState,
+        pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
+        verticalAlignment = verticalAlignment,
+        userScrollEnabled = userScrollEnabled,
+        modifier = visibilityModifier
+            .pointerInput(Unit) {
+                detectTapGestures(
+                    onPress = {
+                        if (userScrollEnabled && isAutoPlay) {
+                            isAutoScrollEnabled = false
+                            if (tryAwaitRelease()) {
+                                isAutoScrollEnabled = true
                             }
-                        },
-                        onTap = {
-                            val index = pagerState.currentPage
-                            onBannerClick?.invoke(
-                                index,
-                                lists.getOrNull(index)
-                            )
                         }
-                    )
-                }
-                .height(pagerHeight),// 限制父容器高度
-            contentPadding = PaddingValues(horizontal = contentPadding),
-            pageSpacing = pageSpacing
-        ) {
-            content(it, lists.getOrNull(it))
-        }
-    } else {
-        HorizontalPager(
-            pagerState,
-            pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
-            verticalAlignment = verticalAlignment,
-            userScrollEnabled = userScrollEnabled,
-            modifier = visibilityModifier
-                .pointerInput(Unit) {
-                    detectTapGestures(
-                        onPress = {
-                            if (userScrollEnabled && isAutoPlay) {
-                                isAutoScrollEnabled = false
-                                if (tryAwaitRelease()) {
-                                    isAutoScrollEnabled = true
-                                }
-                            }
-                        },
-                        onTap = {
-                            val index = pagerState.currentPage
-                            onBannerClick?.invoke(
-                                index,
-                                lists.getOrNull(index)
-                            )
-                        }
-                    )
-                }
-                .height(pagerHeight),// 限制父容器高度
-            contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
-            pageSpacing = pageSpacing
-        ) {
-            content(it, lists[if (it < lists.size) it else 0])
-        }
+                    },
+                    onTap = {
+                        val index = pagerState.currentPage
+                        onBannerClick?.invoke(
+                            index,
+                            lists.getOrNull(index)
+                        )
+                    }
+                )
+            }
+            .height(pagerHeight),// 限制父容器高度
+        contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
+        pageSpacing = pageSpacing
+    ) {
+        content(it, lists[if (it < lists.size) it else 0])
     }
-
-
 }
 
 @Preview
