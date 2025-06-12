@@ -6,6 +6,7 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.material.Button
 import androidx.compose.material.ButtonColors
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
@@ -47,8 +48,12 @@ object PkButtonDefault {
         bottom = ButtonSmallVerticalPadding
     )
 
+    /**
+     *  默认
+     */
     @Composable
     fun buttonColors(
+        interactionSource:InteractionSource=remember { MutableInteractionSource() },
         backgroundColor: Color = PkTheme.colors.primary,
         contentColor: Color = PkTheme.colors.contentColorFor(backgroundColor),
         disabledBackgroundColor: Color = Color(0xFFD4D4D5),
@@ -58,21 +63,25 @@ object PkButtonDefault {
         contentColor = contentColor,
         disabledBackgroundColor = disabledBackgroundColor,
         disabledContentColor = disabledContentColor,
-        interactionSource = remember { MutableInteractionSource() }
+        interactionSource = interactionSource
     )
 
+    /**
+     * 幽灵按钮
+     */
     @Composable
     fun transparentColor(
+        interactionSource:InteractionSource=remember { MutableInteractionSource() },
         backgroundColor: Color = Color.Transparent,
         contentColor: Color = Color(0xFF1F4D1B),
         disabledBackgroundColor: Color = Color(0xFFD4D4D5),
-        disabledContentColor: Color = PkTheme.colors.onPrimary
+        disabledContentColor: Color = Color(0xFF677C64)
     ): ButtonColors = PkButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         disabledBackgroundColor = disabledBackgroundColor,
         disabledContentColor = disabledContentColor,
-        interactionSource = remember { MutableInteractionSource() }
+        interactionSource = interactionSource
     )
 
 }
@@ -81,11 +90,11 @@ object PkButtonDefault {
 class PkButtonColors(
     private val backgroundColor: Color,
     private val contentColor: Color,
-    private val pressedContentColor: Color = contentColor.copy(alpha = 0.7f),
+    private val pressedContentColor: Color = contentColor,
     private val disabledBackgroundColor: Color,
     private val disabledContentColor: Color,
     private val interactionSource: InteractionSource,
-    private val pressedBackgroundColor: Color = backgroundColor.copy(alpha = 0.7f),
+    private val pressedBackgroundColor: Color =backgroundColor.copy(0.8f),
 ) : ButtonColors {
     @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> {

@@ -57,11 +57,14 @@ import coil.ImageLoader
 import coil.compose.rememberAsyncImagePainter
 import coil.decode.SvgDecoder
 import com.peakmain.compose.basic.BasicFont
+import com.peakmain.compose.basic.BasicSize
+import com.peakmain.compose.basic.BasicSpace
 import com.peakmain.compose.ext.isNotEmpty
 import com.peakmain.compose.ext.isNotEmptyComposable
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
+import com.peakmain.compose.ui.button.PkButtonColors
 import com.peakmain.compose.ui.button.PkButtonDefault
 import com.peakmain.compose.ui.title.PkTitle
 import com.peakmain.compose.ui.title.PkTitleType
@@ -111,7 +114,21 @@ fun TypeFragment() {
             )
         }
         item {
-            VerticalBannerDemo()
+            PkButton(
+                onClick = {
+                },
+                shape = PkTheme.shapes.medium,
+                elevation = null,
+                modifier = Modifier.height(BasicSize.size_28).width(140.dp),
+                contentPadding = PkButtonDefault.smallContentPadding,
+                enabled = true,
+                border = if (false) BorderStroke(0.5.dp, Color(0xFFD4D4D5)) else null,
+            ) {
+                Text(
+                     "111",
+                    fontWeight = FontWeight.W500,
+                )
+            }
         }
         item {
             Column {

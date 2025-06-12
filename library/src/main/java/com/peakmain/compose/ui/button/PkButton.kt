@@ -43,7 +43,7 @@ fun PkButton(
     elevation: ButtonElevation? = ButtonDefaults.elevation(),
     shape: Shape = PkTheme.shapes.small,
     border: BorderStroke? = null,
-    colors: ButtonColors = PkButtonDefault.buttonColors(),
+    colors: ButtonColors = PkButtonDefault.buttonColors(interactionSource),
     contentPadding: PaddingValues = PkButtonDefault.BigContentPadding,
     content: @Composable RowScope.() -> Unit
 ) {
