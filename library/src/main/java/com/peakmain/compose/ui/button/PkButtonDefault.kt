@@ -53,17 +53,21 @@ object PkButtonDefault {
      */
     @Composable
     fun buttonColors(
-        interactionSource:InteractionSource=remember { MutableInteractionSource() },
+        interactionSource: InteractionSource = remember { MutableInteractionSource() },
         backgroundColor: Color = PkTheme.colors.primary,
         contentColor: Color = PkTheme.colors.contentColorFor(backgroundColor),
         disabledBackgroundColor: Color = Color(0xFFD4D4D5),
-        disabledContentColor: Color = PkTheme.colors.onPrimary
+        disabledContentColor: Color = PkTheme.colors.onPrimary,
+        pressedBackgroundColor: Color = backgroundColor,
+        pressedContentColor: Color = contentColor
     ): ButtonColors = PkButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         disabledBackgroundColor = disabledBackgroundColor,
         disabledContentColor = disabledContentColor,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        pressedBackgroundColor = pressedBackgroundColor,
+        pressedContentColor = pressedContentColor
     )
 
     /**
@@ -71,17 +75,21 @@ object PkButtonDefault {
      */
     @Composable
     fun transparentColor(
-        interactionSource:InteractionSource=remember { MutableInteractionSource() },
+        interactionSource: InteractionSource = remember { MutableInteractionSource() },
         backgroundColor: Color = Color.Transparent,
         contentColor: Color = Color(0xFF1F4D1B),
         disabledBackgroundColor: Color = Color(0xFFD4D4D5),
-        disabledContentColor: Color = Color(0xFF677C64)
+        disabledContentColor: Color = Color(0xFF677C64),
+        pressedBackgroundColor: Color = backgroundColor,
+        pressedContentColor: Color = contentColor
     ): ButtonColors = PkButtonColors(
         backgroundColor = backgroundColor,
         contentColor = contentColor,
         disabledBackgroundColor = disabledBackgroundColor,
         disabledContentColor = disabledContentColor,
-        interactionSource = interactionSource
+        interactionSource = interactionSource,
+        pressedBackgroundColor = pressedBackgroundColor,
+        pressedContentColor = pressedContentColor
     )
 
 }
@@ -94,7 +102,7 @@ class PkButtonColors(
     private val disabledBackgroundColor: Color,
     private val disabledContentColor: Color,
     private val interactionSource: InteractionSource,
-    private val pressedBackgroundColor: Color =backgroundColor.copy(0.8f),
+    private val pressedBackgroundColor: Color = backgroundColor.copy(0.8f),
 ) : ButtonColors {
     @Composable
     override fun backgroundColor(enabled: Boolean): State<Color> {

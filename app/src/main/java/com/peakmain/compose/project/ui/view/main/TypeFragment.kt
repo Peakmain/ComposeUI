@@ -11,6 +11,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -66,6 +67,7 @@ import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
 import com.peakmain.compose.ui.button.PkButtonColors
 import com.peakmain.compose.ui.button.PkButtonDefault
+import com.peakmain.compose.ui.flow.PkFlowRow
 import com.peakmain.compose.ui.title.PkTitle
 import com.peakmain.compose.ui.title.PkTitleType
 import com.peakmain.compose.utils.ImagePainterUtils
@@ -78,6 +80,8 @@ fun TypeFragment() {
     var isCommonFunctionExpand by remember {
         mutableStateOf(false)
     }
+    val source=remember { MutableInteractionSource() }
+
     val scrollDistance by remember {
         derivedStateOf {
             if (listState.firstVisibleItemIndex > 0 || listState.firstVisibleItemScrollOffset >= 44f) {
@@ -116,18 +120,13 @@ fun TypeFragment() {
         item {
             PkButton(
                 onClick = {
+
                 },
-                shape = PkTheme.shapes.medium,
+                interactionSource = source,
                 elevation = null,
-                modifier = Modifier.height(BasicSize.size_28).width(140.dp),
-                contentPadding = PkButtonDefault.smallContentPadding,
-                enabled = true,
-                border = if (false) BorderStroke(0.5.dp, Color(0xFFD4D4D5)) else null,
+                colors = PkButtonDefault.transparentColor(source,pressedContentColor = Color(0xFFFFFEFA)),
             ) {
-                Text(
-                     "111",
-                    fontWeight = FontWeight.W500,
-                )
+                Text("测试")
             }
         }
         item {
@@ -158,7 +157,13 @@ fun TypeFragment() {
 @Composable
 fun VerticalBannerDemo() {
     val items = listOf("标题1", "标题标题2标题2标题2标题2标题2标题22", "标题3")
-    PkBanner(lists = items, isVertical = true, isAutoPlay = true, duration = 1000, userScrollEnabled = false) { index, it ->
+    PkBanner(
+        lists = items,
+        isVertical = true,
+        isAutoPlay = true,
+        duration = 1000,
+        userScrollEnabled = false
+    ) { index, it ->
         Text(
             text = it ?: "",
             modifier = Modifier

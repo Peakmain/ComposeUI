@@ -287,9 +287,4 @@ fun <T> PkHorizontalBanner(
     }
 }
 
-@Preview
-@Composable
-fun PkBannerPreview() {
-    //PkBanner()
-}
 
