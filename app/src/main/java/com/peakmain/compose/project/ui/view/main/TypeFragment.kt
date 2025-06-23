@@ -47,6 +47,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -80,7 +81,8 @@ fun TypeFragment() {
     var isCommonFunctionExpand by remember {
         mutableStateOf(false)
     }
-    val source=remember { MutableInteractionSource() }
+    val context = LocalContext.current
+    val source = remember { MutableInteractionSource() }
 
     val scrollDistance by remember {
         derivedStateOf {
@@ -111,20 +113,18 @@ fun TypeFragment() {
             }
         }
         item {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-            )
+            BannerDemo()
         }
         item {
             PkButton(
                 onClick = {
-
                 },
                 interactionSource = source,
                 elevation = null,
-                colors = PkButtonDefault.transparentColor(source,pressedContentColor = Color(0xFFFFFEFA)),
+                colors = PkButtonDefault.transparentColor(
+                    source,
+                    pressedContentColor = Color(0xFFFFFEFA)
+                ),
             ) {
                 Text("测试")
             }
@@ -163,7 +163,7 @@ fun VerticalBannerDemo() {
         isAutoPlay = true,
         duration = 1000,
         userScrollEnabled = false
-    ) { index, it ->
+    ) { currentIndex, it ->
         Text(
             text = it ?: "",
             modifier = Modifier
@@ -178,10 +178,10 @@ fun VerticalBannerDemo() {
 fun BannerDemo() {
     val lists = ArrayList<String>().apply {
         add("https://img2.baidu.com/it/u=292395973,2170347184&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
-        /*  add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")*/
-        /*  add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
-        /*  add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")*/
-        /*  add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")*/
+        add("https://img0.baidu.com/it/u=3492687357,1203050466&fm=253&fmt=auto&app=138&f=JPEG?w=889&h=500")
+        add("https://img2.baidu.com/it/u=2843793126,682473204&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
+        add("https://img1.baidu.com/it/u=3907217777,761642486&fm=253&fmt=auto&app=120&f=JPEG?w=1280&h=800")
+        add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
     }
     Column(
         modifier = Modifier
@@ -190,9 +190,8 @@ fun BannerDemo() {
     ) {
         PkBanner(
             lists,
-            isAutoPlay = true,
-            initialPage = 3,
-        ) { index, it ->
+        ) { currentIndex, it ->
+            Log.e("TAG", "当前索引:$currentIndex")
             Image(
                 painter = ImagePainterUtils.getPainter(it),
                 contentDescription = null,

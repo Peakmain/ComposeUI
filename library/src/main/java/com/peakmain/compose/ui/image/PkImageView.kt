@@ -36,9 +36,3 @@ fun PkImageView(
         colorFilter = if (tintColor != null) ColorFilter.tint(tintColor) else null,
     )
 }
-
-@Preview
-@Composable
-fun PkImageViewPreview() {
-    //PkImageView()
-}

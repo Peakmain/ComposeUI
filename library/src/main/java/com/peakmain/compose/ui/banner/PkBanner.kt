@@ -65,6 +65,7 @@ fun <T> PkBanner(
     horizontalAlignment: Alignment.Horizontal = Alignment.Start,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     userScrollEnabled: Boolean = true,
+    forceContentPaddingZero: Boolean = false,
     content: @Composable (Int, T?) -> Unit
 ) {
     if (isVertical) {
@@ -82,7 +83,7 @@ fun <T> PkBanner(
             userScrollEnabled,
             content
         )
-    }else{
+    } else {
         PkHorizontalBanner(
             lists,
             pagerWidth,
@@ -95,6 +96,7 @@ fun <T> PkBanner(
             onBannerClick,
             verticalAlignment,
             userScrollEnabled,
+            forceContentPaddingZero,
             content
         )
     }
@@ -125,11 +127,14 @@ fun <T> PkVerticalBanner(
 
     val pagerState = rememberPagerState(startIndex) { infinitePageCount }
 
-    val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
-    val contentHorizontalPadding = (screenWidthDp - pagerWidth) / 2
 
     var isAutoScrollEnabled by remember {
         mutableStateOf(isAutoPlay && realSize > 1)
+    }
+    var currentSelectedIndex by remember { mutableStateOf(initialPage) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentSelectedIndex = pagerState.currentPage
     }
 
     val screenHeightPx =
@@ -160,20 +165,17 @@ fun <T> PkVerticalBanner(
 
     val pagerModifier = visibilityModifier
         .pointerInput(Unit) {
-            detectTapGestures(
-                onPress = {
-                    if (userScrollEnabled && isAutoPlay) {
-                        isAutoScrollEnabled = false
-                        if (tryAwaitRelease()) {
-                            isAutoScrollEnabled = true
-                        }
+            detectTapGestures(onPress = {
+                if (userScrollEnabled && isAutoPlay) {
+                    isAutoScrollEnabled = false
+                    if (tryAwaitRelease()) {
+                        isAutoScrollEnabled = true
                     }
-                },
-                onTap = {
-                    val index = pagerState.currentPage % realSize
-                    onBannerClick?.invoke(index, lists.getOrNull(index))
                 }
-            )
+            }, onTap = {
+                val index = pagerState.currentPage % realSize
+                onBannerClick?.invoke(index, lists.getOrNull(index))
+            })
         }
         .height(pagerHeight)
 
@@ -208,12 +210,18 @@ fun <T> PkHorizontalBanner(
     onBannerClick: ((Int, T?) -> Unit)? = null,
     verticalAlignment: Alignment.Vertical = Alignment.CenterVertically,
     userScrollEnabled: Boolean = true,
+    forceContentPaddingZero: Boolean = false,
     content: @Composable (Int, T?) -> Unit
 ) {
     val size = lists.size
     if (size == 0) return
     val pagerState = rememberPagerState(if (initialPage in 0..<size) initialPage else 0) {
         size
+    }
+    var currentSelectedIndex by remember { mutableStateOf(initialPage) }
+
+    LaunchedEffect(pagerState.currentPage) {
+        currentSelectedIndex = pagerState.currentPage
     }
     val screenWidthDp = LocalConfiguration.current.screenWidthDp.dp
 
@@ -254,36 +262,34 @@ fun <T> PkHorizontalBanner(
             }
         }
     }
-    HorizontalPager(
-        pagerState,
+    HorizontalPager(pagerState,
         pageSize = if (size == 1) PageSize.Fill else PageSize.Fixed(pagerWidth),
         verticalAlignment = verticalAlignment,
         userScrollEnabled = userScrollEnabled,
         modifier = visibilityModifier
             .pointerInput(Unit) {
-                detectTapGestures(
-                    onPress = {
-                        if (userScrollEnabled && isAutoPlay) {
-                            isAutoScrollEnabled = false
-                            if (tryAwaitRelease()) {
-                                isAutoScrollEnabled = true
-                            }
+                detectTapGestures(onPress = {
+                    if (userScrollEnabled && isAutoPlay) {
+                        isAutoScrollEnabled = false
+                        if (tryAwaitRelease()) {
+                            isAutoScrollEnabled = true
                         }
-                    },
-                    onTap = {
-                        val index = pagerState.currentPage
-                        onBannerClick?.invoke(
-                            index,
-                            lists.getOrNull(index)
-                        )
                     }
-                )
+                }, onTap = {
+                    val index = pagerState.currentPage
+                    onBannerClick?.invoke(
+                        index, lists.getOrNull(index)
+                    )
+                })
             }
             .height(pagerHeight),// 限制父容器高度
-        contentPadding = PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding),
-        pageSpacing = pageSpacing
-    ) {
-        content(it, lists[if (it < lists.size) it else 0])
+        contentPadding = if (forceContentPaddingZero) {
+            PaddingValues(horizontal = 0.dp)
+        } else {
+            PaddingValues(horizontal = if (pagerState.currentPage == 0 || pagerState.currentPage == lists.size - 1) contentPadding else contentHorizontalPadding)
+        },
+        pageSpacing = pageSpacing) {
+        content(currentSelectedIndex, lists[if (it < lists.size) it else 0])
     }
 }
 
