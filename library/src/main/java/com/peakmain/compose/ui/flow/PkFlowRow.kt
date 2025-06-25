@@ -16,6 +16,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -38,9 +43,16 @@ fun PkFlowRow(
     horizontalSpacing: Dp = 0.dp,
     verticalSpacing: Dp = 0.dp,
     maxLine: Int = 2,
+    onLineCountChanged: ((Int) -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val density = LocalDensity.current
+    var lineCountState by remember { mutableStateOf(0) }
+
+    // ✅ 生命周期感知调用
+    LaunchedEffect(lineCountState) {
+        onLineCountChanged?.invoke(lineCountState)
+    }
     SubcomposeLayout { constraints ->
         //测量所有的子View的测量数据
         val measurables = subcompose("measure", content)
@@ -59,7 +71,6 @@ fun PkFlowRow(
             if (currentRowWidth + itemWidth > constraints.maxWidth) {
                 currentLine++
                 if (currentLine >= maxLine) return@forEachIndexed
-
                 totalHeight += currentRowHeight + vSpacingPx
                 currentRowWidth = 0
                 currentRowHeight = 0
@@ -67,8 +78,10 @@ fun PkFlowRow(
             currentRowWidth += itemWidth
             currentRowHeight = maxOf(currentRowHeight, placeable.height)
         }
+        lineCountState= if (currentRowWidth > 0) currentLine + 1 else currentLine
         //获取最大高度
         val maxHeight = totalHeight + currentRowHeight
+
         // 第二阶段：实际布局
         subcompose("content") {
             FlowRow(

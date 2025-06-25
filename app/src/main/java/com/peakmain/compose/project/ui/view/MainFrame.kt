@@ -27,18 +27,20 @@ import com.peakmain.compose.project.ui.view.main.TypeFragment
 @Composable
 fun MainFrame() {
     val navigationItems = listOf(
-        NavigationItem("首页", Icons.Default.Home),
-        NavigationItem("项目", Icons.Default.AccountCircle),
-        NavigationItem("分类", Icons.Default.LocationOn),
-        NavigationItem("我的", Icons.Default.Person)
+        NavigationItem("基础组件", Icons.Default.Home),
+        NavigationItem("展示组件", Icons.Default.AccountCircle),
+        NavigationItem("工具类", Icons.Default.LocationOn),
+        NavigationItem("扩展类", Icons.Default.Person)
     )
     var currentNavigationIndex by remember {
         mutableStateOf(0)
     }
     Scaffold(
         bottomBar = {
-            BottomNavigation(backgroundColor = MaterialTheme.colors.surface
-                , modifier = Modifier.navigationBarsPadding()) {
+            BottomNavigation(
+                backgroundColor = MaterialTheme.colors.surface,
+                modifier = Modifier.navigationBarsPadding()
+            ) {
                 navigationItems.forEachIndexed { index, navigationItem ->
                     BottomNavigationItem(
                         selected = currentNavigationIndex == index,

@@ -11,11 +11,13 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,6 +33,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MailOutline
@@ -49,10 +53,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.ImageLoader
@@ -63,6 +70,7 @@ import com.peakmain.compose.basic.BasicSize
 import com.peakmain.compose.basic.BasicSpace
 import com.peakmain.compose.ext.isNotEmpty
 import com.peakmain.compose.ext.isNotEmptyComposable
+import com.peakmain.compose.project.R
 import com.peakmain.compose.theme.PkTheme
 import com.peakmain.compose.ui.banner.PkBanner
 import com.peakmain.compose.ui.button.PkButton
@@ -113,7 +121,9 @@ fun TypeFragment() {
             }
         }
         item {
-            BannerDemo()
+            Row(verticalAlignment = Alignment.CenterVertically) {
+
+            }
         }
         item {
             PkButton(
@@ -206,34 +216,43 @@ fun BannerDemo() {
     }
 }
 
+// 定义图标类
+object IconfontIcons {
+    const val HOME = "\uE7FC"
+    const val SEARCH = "\uE7FB"
+    const val USER = "\ue602"
+    const val SETTINGS = "\ue603"
+    const val NOTIFICATION = "\ue604"
+}
 
 @Preview
 @Composable
 fun testPrev() {
-    /*  Box(modifier = Modifier.size(36.dp)) {
-          Image(
-              painter = painterResource(R.drawable.portrair),
-              contentDescription = null,
-              contentScale = ContentScale.Crop,
-              modifier = Modifier
-                  .padding(top = 8.dp)
-                  .size(28.dp)
-          )
-          PkBadge("13")
-      }*/
-    Column(Modifier.background(Color.White)) {
-        PkButton(
-            onClick = {
-
-            }, elevation = null,
-            colors = PkButtonDefault.transparentColor(),
-            shape = PkTheme.shapes.small,
-            border = BorderStroke(0.5.dp, Color(0xFFD4D4D5))
+    val tags = listOf(
+        "Android",
+        "Kotlin",
+    )
+    var currentLine by remember {
+        mutableStateOf(0)
+    }
+    Column {
+        Text("当前行数:$currentLine", color = Color.White, fontSize = 24.sp)
+        PkFlowRow(
+            horizontalSpacing = 8.dp,
+            verticalSpacing = 12.dp,
+            onLineCountChanged = {
+                currentLine = it
+            },
+            maxLine = 1
         ) {
-            Text(
-                "继续挑战", fontWeight = FontWeight.W500,
-                fontSize = BasicFont.font_12
-            )
+            tags.forEach { tag ->
+                Text(
+                    text = tag,
+                    modifier = Modifier
+                        .background(Color.LightGray, RoundedCornerShape(16.dp))
+                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                )
+            }
         }
     }
 }

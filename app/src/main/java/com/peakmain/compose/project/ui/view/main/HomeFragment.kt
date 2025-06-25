@@ -7,6 +7,8 @@ package com.peakmain.compose.project.ui.view.main
  * describe：
  */
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,19 +23,22 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.peakmain.compose.basic.BasicSpace
 import com.peakmain.compose.ext.orSize
 import com.peakmain.compose.library.TopAppBarCenter
 import com.peakmain.compose.project.ui.theme.Color_149EE7
 import com.peakmain.compose.project.ui.theme.Color_2DCDF5
 import com.peakmain.compose.project.viewmodel.home.HomeFragmentViewModel
+import com.peakmain.compose.ui.cell.PkCell
 import com.peakmain.compose.ui.divier.PkDashDivider
 import com.peakmain.compose.ui.divier.PkDivider
 import com.peakmain.compose.ui.divier.PkFullDivider
 import com.peakmain.compose.ui.flow.PkFlowRow
+import com.peakmain.compose.ui.title.PkTitleType
 
 @Composable
-fun HomeFragment(viewModel: HomeFragmentViewModel = viewModel()) {
-    TopAppBarCenter (
+fun HomeFragment() {
+    TopAppBarCenter(
         title = {
             Text(text = "首页", color = Color.White)
         },
@@ -43,41 +48,24 @@ fun HomeFragment(viewModel: HomeFragmentViewModel = viewModel()) {
 
         Column(
             modifier = Modifier
+                .padding(BasicSpace.space_18)
                 .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(BasicSpace.space_18),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            CustomRow("我是垂直实线") {
-                //默认垂直实线
-                PkDivider()
-            }
-            //水平实线
-            PkFullDivider(modifier = Modifier.padding(top = 10.dp), isHorizontal = true)
-            CustomRow("我是垂直虚线") {
-                PkDivider(isDash=true)
-            }
-            //水平虚线
-            PkDashDivider(modifier = Modifier.padding(top = 10.dp), isHorizontal = true)
-            arrayListOf<String>().orSize()
-            val tags =
-                listOf("Android", "Kotlin", "Jetpack Compose", "Material Design", "UI", "Development","KMP")
+            PkCell(text = "标题组件", modifier = Modifier.clickable {
 
-            PkFlowRow(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(16.dp),
-                horizontalSpacing = 8.dp,
-                verticalSpacing = 12.dp,
-                maxLine = 1
-            ) {
-                tags.forEach { tag ->
-                    Text(
-                        text = tag,
-                        modifier = Modifier
-                            .background(Color.LightGray, RoundedCornerShape(16.dp))
-                            .padding(horizontal = 12.dp, vertical = 8.dp)
-                    )
-                }
-            }
+            }, type = PkTitleType.TitleBold1())
+         
+            PkCell(text = "单元格组件", modifier = Modifier.clickable {
+
+            }, type = PkTitleType.TitleBold1())
+            PkCell(text = "按钮组件", modifier = Modifier.clickable {
+
+            }, type = PkTitleType.TitleBold1())
+            PkCell(text = "图片组件", modifier = Modifier.clickable {
+
+            }, type = PkTitleType.TitleBold1())
         }
     }
 }
