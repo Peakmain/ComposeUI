@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.peakmain.compose.project.compose.basic.BasicComponentActivity" />
+        <activity android:name="com.peakmain.compose.project.page.basic.BasicComponentActivity" />
+        <activity android:name="com.peakmain.compose.project.page.display.DisplayComponentActivity" />
     </application>
 
 </manifest>
