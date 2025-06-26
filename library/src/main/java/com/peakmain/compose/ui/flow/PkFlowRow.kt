@@ -33,23 +33,21 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 
-/**
- *
- */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PkFlowRow(
-    modifier: Modifier = Modifier,
-    horizontalSpacing: Dp = 0.dp,
-    verticalSpacing: Dp = 0.dp,
-    maxLine: Int = 2,
-    onLineCountChanged: ((Int) -> Unit)? = null,
-    content: @Composable () -> Unit,
+    modifier: Modifier = Modifier,          // 布局修饰符
+    horizontalSpacing: Dp = 0.dp,          // 子项水平间距
+    verticalSpacing: Dp = 0.dp,            // 行间垂直间距
+    maxLine: Int = 2,                      // 最大显示行数
+    onLineCountChanged: ((Int) -> Unit)? = null, // 行数变化回调
+    content: @Composable () -> Unit        // 子组件内容
 ) {
     val density = LocalDensity.current
+    //当前行数的状态
     var lineCountState by remember { mutableStateOf(0) }
 
-    // ✅ 生命周期感知调用
+    //生命周期感知调用
     LaunchedEffect(lineCountState) {
         onLineCountChanged?.invoke(lineCountState)
     }
