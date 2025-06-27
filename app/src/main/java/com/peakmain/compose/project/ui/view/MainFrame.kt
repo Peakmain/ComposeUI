@@ -13,13 +13,12 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import com.peakmain.compose.project.bean.main.NavigationItem
 import com.peakmain.compose.project.ui.theme.Color_149EE7
 import com.peakmain.compose.project.ui.theme.Color_999999
 import com.peakmain.compose.project.ui.view.main.HomeFragment
-import com.peakmain.compose.project.ui.view.main.MineFragment
+import com.peakmain.compose.project.ui.view.main.ExpandFragment
 import com.peakmain.compose.project.ui.view.main.ProjectFragment
 import com.peakmain.compose.project.ui.view.main.TypeFragment
 
@@ -62,7 +61,7 @@ fun MainFrame() {
             0 -> HomeFragment()
             1 -> ProjectFragment()
             2 -> TypeFragment()
-            else -> MineFragment()
+            else -> ExpandFragment()
         }
     }
 }

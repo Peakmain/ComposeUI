@@ -38,6 +38,7 @@ import com.peakmain.compose.basic.BasicSize
 import com.peakmain.compose.basic.BasicSpace
 import com.peakmain.compose.library.TopAppBarCenter
 import com.peakmain.compose.project.R
+import com.peakmain.compose.project.component.CpColumn
 import com.peakmain.compose.project.constants.PkColor
 import com.peakmain.compose.space.PkSpacer
 import com.peakmain.compose.ui.banner.PkBanner
@@ -64,12 +65,7 @@ fun BannerPage() {
         add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
     }
     val vLists = arrayListOf("广告", "我是垂直轮播", "生活好滋味，就要上四休三")
-    Column(
-        modifier = Modifier
-            .background(PkColor.color_fill1)
-            .fillMaxSize()
-    ) {
-        PkNavBar("轮播图组件")
+    CpColumn("轮播图组件") {
         PkTitle("默认水平轮播", type = PkTitleType.TextBold1(), modifier = Modifier.padding(18.dp))
         PkBanner(
             lists,

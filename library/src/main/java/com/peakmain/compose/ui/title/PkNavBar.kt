@@ -113,10 +113,6 @@ fun PkNavBar(
             fontWeight = FontWeight.W500,
             color = titleColor,
             modifier = Modifier
-                .padding(
-                    start = if (showBack) 42.dp else 0.dp,
-                    end = if (rightResource!=null) 42.dp else 0.dp
-                )
                 .align(Alignment.Center)
         )
 

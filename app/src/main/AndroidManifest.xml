@@ -25,6 +25,8 @@
         </activity>
         <activity android:name="com.peakmain.compose.project.page.basic.BasicComponentActivity" />
         <activity android:name="com.peakmain.compose.project.page.display.DisplayComponentActivity" />
+        <activity android:name="com.peakmain.compose.project.page.tools.ToolsActivity" />
+        <activity android:name="com.peakmain.compose.project.page.expand.ExpandActivity" />
     </application>
 
 </manifest>

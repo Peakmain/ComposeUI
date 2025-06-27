@@ -4,11 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import com.peakmain.compose.project.page.display.compose.BannerPage
 import com.peakmain.compose.project.page.display.compose.DividerPage
 import com.peakmain.compose.project.page.display.compose.FlowRowPage
 import com.peakmain.compose.project.page.display.compose.GridPage
+import com.peakmain.compose.project.page.display.compose.HighlightTextPage
+import com.peakmain.compose.project.page.display.compose.StaggeredVerticalGridPage
+import com.peakmain.compose.ui.grid.PkStaggeredVerticalGrid
 
 /**
  * author ：Peakmain
@@ -41,6 +45,14 @@ class DisplayComponentActivity:ComponentActivity() {
                     BannerPage()
                 }
 
+                5->{
+                    //高亮文本
+                    HighlightTextPage()
+                }
+                6->{
+                    //瀑布流组件
+                   StaggeredVerticalGridPage()
+                }
             }
         }
     }
