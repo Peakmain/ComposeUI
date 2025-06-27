@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.peakmain.compose.project.page.display.compose.BannerPage
 import com.peakmain.compose.project.page.display.compose.DividerPage
 import com.peakmain.compose.project.page.display.compose.FlowRowPage
 import com.peakmain.compose.project.page.display.compose.GridPage
@@ -35,6 +36,11 @@ class DisplayComponentActivity:ComponentActivity() {
                     //流式布局
                     FlowRowPage()
                 }
+                4->{
+                    //轮播图
+                    BannerPage()
+                }
+
             }
         }
     }
