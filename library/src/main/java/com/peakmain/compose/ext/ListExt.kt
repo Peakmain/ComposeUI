@@ -15,6 +15,7 @@ package com.peakmain.compose.ext
 fun <T> List<T>?.orSize(): Int {
     return this?.size ?: return 0
 }
+
 /**
  * 判断List大小是否大于0
  * ①、如果List为null，则返回false。
@@ -37,5 +38,16 @@ fun <T> List<T>?.sizeEqualZero(): Boolean {
  * 返回此列表中指定[fromIndex]（包含）和[toIndex]（不包含）之间部分的视图
  */
 fun <T> List<T>?.slice(fromIndex: Int, toIndex: Int): List<T>? {
-    return if (this.orSize() > (toIndex-fromIndex)) this?.subList(fromIndex, toIndex) else this
+    return if (this.orSize() > (toIndex - fromIndex)) this?.subList(fromIndex, toIndex) else this
+}
+
+/**
+ * 是否是最后一条数据
+ */
+fun <T> List<T>?.isLastItem(position: Int): Boolean {
+    if (this.isNullOrEmpty()) {
+        return false
+    }
+    val size = this.size
+    return position == size - 1
 }
