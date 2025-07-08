@@ -33,6 +33,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 
+/**
+ * 不需要监听行数变化，推荐使用系统的FlowRow
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun PkFlowRow(

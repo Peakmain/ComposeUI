@@ -11,6 +11,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
@@ -57,6 +58,7 @@ fun TypeFragment() {
             verticalArrangement = Arrangement.spacedBy(BasicSpace.space_18),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            FlowRow {  }
             lists.forEachIndexed { index, item ->
                 CpCell(item, intent, index + 1)
             }
