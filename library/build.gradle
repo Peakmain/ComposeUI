@@ -45,11 +45,12 @@ dependencies {
     api 'androidx.compose.foundation:foundation'
     api "androidx.compose.ui:ui-tooling"
     api "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-    api ("io.coil-kt:coil-compose:2.4.0")
-    api ("io.coil-kt:coil-svg:2.4.0")
-    api ("io.coil-kt:coil-gif:2.4.0")
+    def coil_kt_version="2.7.0"
+    api ("io.coil-kt:coil-compose:$coil_kt_version")
+    api ("io.coil-kt:coil-svg:$coil_kt_version")
+    api ("io.coil-kt:coil-gif:$coil_kt_version")
 
-    def accompanist_version = "0.33.1-alpha"
+    def accompanist_version = "0.36.0"
     api "com.google.accompanist:accompanist-systemuicontroller:${accompanist_version}"
     //api "com.google.accompanist:accompanist-insets:$accompanist_version"
     api "com.google.accompanist:accompanist-pager:${accompanist_version}"
