@@ -48,9 +48,9 @@ android {
 
 dependencies {
     implementation project(path: ':library')
-implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.activity:activity-ktx:1.0.0'
-    implementation 'androidx.activity:activity-compose:1.0.0'
+    implementation 'androidx.activity:activity-compose:1.8.0'
 
     def lifecycle_version = "2.4.1"
 

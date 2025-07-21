@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'org.jetbrains.kotlin.plugin.compose' version '2.1.0'
 }
 
 android {
@@ -43,7 +44,7 @@ dependencies {
     api 'androidx.compose.material3:material3'
     api 'androidx.compose.foundation:foundation'
     api "androidx.compose.ui:ui-tooling"
-    api "androidx.constraintlayout:constraintlayout-compose:1.0.0"
+    api "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     api ("io.coil-kt:coil-compose:2.4.0")
     api ("io.coil-kt:coil-svg:2.4.0")
     api ("io.coil-kt:coil-gif:2.4.0")
@@ -53,5 +54,6 @@ dependencies {
     //api "com.google.accompanist:accompanist-insets:$accompanist_version"
     api "com.google.accompanist:accompanist-pager:${accompanist_version}"
     api "com.google.accompanist:accompanist-pager-indicators:${accompanist_version}"
+    implementation "androidx.core:core:1.13.1" // 请使用最新版本
 
 }
