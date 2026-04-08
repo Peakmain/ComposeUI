@@ -10,6 +10,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.VerticalPager
@@ -46,7 +47,7 @@ import kotlinx.coroutines.delay
  * @param isVertical 是否为纵向轮播，默认值是false(也就是说默认是水平轮播)
  * @param horizontalAlignment 横向对齐方式，默认值是Alignment.Start
  * @param verticalAlignment 纵向对齐方式，默认值 Alignment.CenterVertically
- * @param userScrollEnabled\ 是否允许用户手动滑动 默认值是true
+ * @param userScrollEnabled 是否允许用户手动滑动 默认值是true
  * @param content 自定义轮播项内容的Composable，参数为当前页索引（必填）
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -131,11 +132,6 @@ fun <T> PkVerticalBanner(
     var isAutoScrollEnabled by remember {
         mutableStateOf(isAutoPlay && realSize > 1)
     }
-    var currentSelectedIndex by remember { mutableStateOf(initialPage) }
-
-    LaunchedEffect(pagerState.currentPage) {
-        currentSelectedIndex = pagerState.currentPage
-    }
 
     val screenHeightPx =
         with(LocalDensity.current) { LocalConfiguration.current.screenHeightDp.dp.toPx() }
@@ -177,11 +173,11 @@ fun <T> PkVerticalBanner(
                 onBannerClick?.invoke(index, lists.getOrNull(index))
             })
         }
-        .height(pagerHeight)
+        .width(pagerWidth)
 
     VerticalPager(
         state = pagerState,
-        pageSize = PageSize.Fixed(pagerWidth),
+        pageSize = PageSize.Fixed(pagerHeight),
         horizontalAlignment = horizontalAlignment,
         userScrollEnabled = userScrollEnabled,
         modifier = pagerModifier,

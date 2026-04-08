@@ -7,6 +7,7 @@ package com.peakmain.compose.ui.title
  * describe：
  */
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -133,6 +134,7 @@ fun PkTitle(
     type: PkTitleType = PkTitleType.BigTitle1(),
     modifier: Modifier = Modifier,
     color: Color = Color(0xFF333333),
+    autoSize: TextAutoSize? = null,
     fontStyle: FontStyle? = null,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis,
@@ -143,6 +145,7 @@ fun PkTitle(
         text,
         modifier,
         color,
+        autoSize,
         type.fontSize,
         fontStyle,
         type.fontWeight,
