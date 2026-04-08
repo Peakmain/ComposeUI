@@ -134,12 +134,13 @@ fun PkTitle(
     type: PkTitleType = PkTitleType.BigTitle1(),
     modifier: Modifier = Modifier,
     color: Color = Color(0xFF333333),
-    autoSize: TextAutoSize? = null,
     fontStyle: FontStyle? = null,
     textAlign: TextAlign? = null,
     overflow: TextOverflow = TextOverflow.Ellipsis,
     maxLines: Int =1,
-    style: TextStyle = LocalTextStyle.current
+    style: TextStyle = LocalTextStyle.current,
+    autoSize: TextAutoSize? = null,
+
 ) {
     Text(
         text,
