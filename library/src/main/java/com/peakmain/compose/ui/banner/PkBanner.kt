@@ -173,6 +173,7 @@ fun <T> PkVerticalBanner(
                 onBannerClick?.invoke(index, lists.getOrNull(index))
             })
         }
+        .height(pagerHeight)
         .width(pagerWidth)
 
     VerticalPager(

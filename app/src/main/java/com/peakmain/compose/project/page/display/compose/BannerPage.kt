@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
@@ -65,6 +66,7 @@ fun BannerPage() {
         add("https://img1.baidu.com/it/u=1082651511,4058105193&fm=253&fmt=auto&app=120&f=JPEG?w=1422&h=800")
     }
     val vLists = arrayListOf("广告", "我是垂直轮播", "生活好滋味，就要上四休三")
+    val itemWidth = (LocalConfiguration.current.screenWidthDp.dp)
     CpColumn("轮播图组件") {
         PkTitle("默认水平轮播", type = PkTitleType.TextBold1(), modifier = Modifier.padding(18.dp))
         PkBanner(
@@ -88,7 +90,9 @@ fun BannerPage() {
         PkBanner(
             vLists,
             isAutoPlay = true,
-            isVertical = true
+            isVertical = true,
+            pagerHeight = 88.dp,
+            pagerWidth = itemWidth
         ) { index, item ->
             Box() {
                 Column(
@@ -96,7 +100,7 @@ fun BannerPage() {
                         .clip(RoundedCornerShape(BasicRadius.radius_8))
                         .background(PkColor.color_fill2)
                         .padding(bottom = BasicSpace.space_16)
-                        .fillMaxHeight(),
+                        .fillMaxSize(),
                 ) {
                     Box() {
                         Column {
