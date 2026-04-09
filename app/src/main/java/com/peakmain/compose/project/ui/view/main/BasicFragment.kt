@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import com.peakmain.compose.basic.BasicSpace
 import com.peakmain.compose.library.TopAppBarCenter
+import com.peakmain.compose.project.CommonFunctionItemTopPreview
+import com.peakmain.compose.project.PreviewShortTextA_NoWrap
 import com.peakmain.compose.project.page.basic.BasicComponentActivity
 import com.peakmain.compose.project.ui.theme.Color_149EE7
 import com.peakmain.compose.project.ui.theme.Color_2DCDF5
@@ -47,6 +49,8 @@ fun HomeFragment() {
             verticalArrangement = Arrangement.spacedBy(BasicSpace.space_18),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+
+            CommonFunctionItemTopPreview()
             PkCell(text = "标题组件", modifier = Modifier.clickable {
                 intent.putExtra("type",1)
                 context.startActivity(intent)

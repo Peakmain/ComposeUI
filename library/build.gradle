@@ -23,9 +23,6 @@ android {
     buildFeatures {
         compose true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
@@ -37,7 +34,7 @@ android {
 }
 
 dependencies {
-    api platform('androidx.compose:compose-bom:2025.06.01')
+    api platform('androidx.compose:compose-bom:+')
 
     // 按需引入组件（无需指定版本）
     api 'androidx.compose.ui:ui'
@@ -45,6 +42,7 @@ dependencies {
     api 'androidx.compose.foundation:foundation'
     api "androidx.compose.ui:ui-tooling"
     api "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    api("androidx.compose.material:material-icons-extended")
     def coil_kt_version="2.7.0"
     api ("io.coil-kt:coil-compose:$coil_kt_version")
     api ("io.coil-kt:coil-svg:$coil_kt_version")

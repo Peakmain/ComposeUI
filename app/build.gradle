@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.0" // <-- 加上这一行
 }
 
 android {
@@ -8,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "com.peakmain.compose.project"
-        minSdk 21
+        minSdk 23
         targetSdk 31
         versionCode 1
         versionName "1.0"
@@ -35,9 +36,6 @@ android {
     buildFeatures {
         compose true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.4"
-    }
     packagingOptions {
         resources {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
@@ -51,12 +49,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.activity:activity-ktx:1.0.0'
     implementation 'androidx.activity:activity-compose:1.8.0'
+    implementation 'androidx.compose.animation:animation-core:1.10.0'
+    implementation 'androidx.compose.material3:material3:1.4.0'
+    implementation 'androidx.compose.foundation:foundation:1.10.0'
+    implementation 'androidx.navigation:navigation-compose:2.9.6'
 
     def lifecycle_version = "2.4.1"
 
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
-
+    implementation 'com.google.android.material:material:+'
+    // ...
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
